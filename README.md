@@ -40,17 +40,21 @@ Participants were also more likely to be female than non-particpants, perhaps re
 
 ### Matching Types
 
-- Exact Matching: with our set of variables only 5 parcipant observations got matches.
+#### Exact Matching: 
+with our set of variables only 5 parcipant observations got matches.
   
-- Coarsened Exact Matching (CEM): a defautl model improved to 34 of 185 participants getting matches. With some extra specification in binning of the continuous variables we improve to 177 of 185 participants getting matches and those matches do a very good job at minimizing the standardized mean difference across variables.
+#### Coarsened Exact Matching (CEM): 
+a defautl model improved to 34 of 185 participants getting matches. With some extra specification in binning of the continuous variables we improve to 177 of 185 participants getting matches and those matches do a very good job at minimizing the standardized mean difference across variables.
   
   ![unnamed-chunk-14-1](https://github.com/user-attachments/assets/e3f49a1c-dcbc-4e61-9869-17be8c995cea)
 
-- Propensity Score Matching (PSM): A default model gets matches for every participant, but the quality of matches is slightly worst than our CEM model with cutom binning.
+#### Propensity Score Matching (PSM): 
+A default model gets matches for every participant, but the quality of matches is slightly worst than our CEM model with cutom binning.
   
 ![unnamed-chunk-16-1](https://github.com/user-attachments/assets/4404d5d3-96a3-4415-9573-daa88a9b7f7e)
 
-- Exact + PSM: A model using exact binning to create strata and PSM to assign matches within strata retains all participant observations and slighly outperforms our CEM model. By altering the PSM matching method and the link function for the propensity model we improve the match qualitiy slightly again.
+#### Exact + PSM: 
+A model using exact binning to create strata and PSM to assign matches within strata retains all participant observations and slighly outperforms our CEM model. By altering the PSM matching method and the link function for the propensity model we improve the match qualitiy slightly again.
   
 ![unnamed-chunk-18-1](https://github.com/user-attachments/assets/2700c941-dd74-42f7-9c47-0d9a928b526d)
 
