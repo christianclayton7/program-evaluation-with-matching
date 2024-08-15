@@ -1,6 +1,6 @@
 ---
 title: "Program Evaluation without Randomization (with Matching)"
-format: html
+format: pdf
 editor: visual
 ---
 
@@ -11,6 +11,8 @@ The reason randomization is key is because it gives you the best chance at ensur
 Matching is one of a handful of **quasi-experimental** techniques that try to approach that gold standard of randomized experiment. It does so by attempting to eliminate any differences between your participant population and your control group, by matching along a set of characteristics that could play a role in your outcome and/or whether you made it in the program group. In other words, matching is the process of carefully creating an artificial control group that looks like one that could have been made organically using randomization.
 
 Enough hypetheticals, lets talk about our example case...
+
+{{< pagebreak >}}
 
 ## Use Case: Training Program Participation's Effect on Performance Ratings
 
@@ -36,7 +38,7 @@ df = read.csv(url(url))
 
 ```{r}
 # create a fictional binary for whether someone was "in the training program"
-# using # of trainings attended so some basis in real dynamics betweeen variables
+# using # of trainings attended so some basis in real dynamics betweeen vars
 df = df %>%
   mutate(training_participant = 
            if_else(TrainingTimesLastYear < 4,0,1))
@@ -44,17 +46,22 @@ df = df %>%
 # update to simiulate invitation to only R&D dept and job levels 1-3
 df = df %>%
   mutate(training_participant = 
-           if_else(JobLevel %in% c(1,2,3), training_participant, 0)) %>%
+           if_else(JobLevel %in% c(1,2,3), 
+                   training_participant, 0)) %>%
   mutate(training_participant = 
-           if_else(Department %in% c("Research & Development"), training_participant, 0)) 
+           if_else(Department %in% c("Research & Development"), 
+                   training_participant, 0)) 
 ```
 
 So what dimensions effect our outcome (performance) and/or whether someone was invited and accepted the invite for the program? Here we are somewhat limited in our data, but a few candidates immediately jump out. Department and job level were the initial invitation filters so those make sense to include. Age and gender are sometimes correlated with decisions at work. Education level, job involvement, total working years, and years in current role all are certain to play a role in job performance. Together those factors should help us match a statsitcailly similar group to our participant group in a way that approaches (although still inferior to) how randomization would.
 
 ```{r}
-# what characterisitcs are important to perf which we'd hope our treatment vs control group are similar on?
+# what characterisitcs are important to perf which we'd hope our treatment vs 
+# control group are similar on?
 colnames(df)
 ```
+
+{{< pagebreak >}}
 
 ## Explore Participant vs Non-Participant Differences
 
@@ -76,7 +83,8 @@ df %>%
   summarize(across(c(Age,TotalWorkingYears,YearsInCurrentRole),
                    mean)) %>%
   pivot_longer(-training_participant) %>%
-  mutate(training_participant = factor(if_else(training_participant == 1, 'Yes','No'))) %>%
+  mutate(training_participant = 
+           factor(if_else(training_participant == 1, 'Yes','No'))) %>%
   ggplot(aes(x = value, y = name, fill = training_participant)) +
   geom_bar(stat = 'identity', position = 'dodge') +
   ggtitle('Participant vs Non-Participant Differences (year counts)')+ 
@@ -92,7 +100,8 @@ df %>%
   summarize(across(c(Education, JobLevel, JobInvolvement),
                    mean)) %>%
   pivot_longer(-training_participant) %>%
-  mutate(training_participant = factor(if_else(training_participant == 1, 'Yes','No'))) %>%
+  mutate(training_participant = 
+           factor(if_else(training_participant == 1, 'Yes','No'))) %>%
   ggplot(aes(x = value, y = name, fill = training_participant)) +
   geom_bar(stat = 'identity', position = 'dodge') +
   ggtitle('Participant vs Non-Participant Differences (scale vars)')+ 
@@ -107,7 +116,8 @@ df %>%
   count(training_participant, Gender) %>%
   group_by(training_participant) %>%
   mutate(pct = n/sum(n)) %>%
-  mutate(training_participant = factor(if_else(training_participant == 1, 'Yes','No'))) %>%
+  mutate(training_participant = 
+           factor(if_else(training_participant == 1, 'Yes','No'))) %>%
   ggplot(aes(x = pct, y = Gender, fill = training_participant)) +
   geom_bar(stat = 'identity', position = 'dodge')+
   ggtitle('Participant vs Non-Participant Differences (gender)')+ 
@@ -116,7 +126,9 @@ df %>%
 
 So there are definite differences between our participant group and our non-participant group and those differences could confound our analysis. Matching can help eliminate these differences and by extension potential confounds.
 
-## Matching Types
+{{< pagebreak >}}
+
+## Matching Methods
 
 ### Exact Matching
 
@@ -137,13 +149,16 @@ df2 = df %>% mutate(across(cat_cols, as.factor))
 # total years of experience, and years in their current role
 
 ## try exact matching
-match_obj <- matchit(training_participant ~ Age + Gender + Education + Department + JobLevel + 
-                       JobInvolvement + TotalWorkingYears + YearsInCurrentRole,
+match_obj <- matchit(training_participant ~ Age + Gender + Education + 
+                       Department + JobLevel + JobInvolvement + 
+                       TotalWorkingYears + YearsInCurrentRole,
                      data = df2, 
                      method = "exact")
 ## lost almost all the participant observations
 summary(match_obj)$nn
 ```
+
+{{< pagebreak >}}
 
 ### Coarsened Exact Matching (CEM)
 
@@ -151,8 +166,9 @@ You might already be thinking it, a solution to having too many things to match 
 
 ```{r}
 ## try coarsened exact matching
-match_obj <- matchit(training_participant ~ Age + Gender + Education + Department + JobLevel + 
-                       JobInvolvement + TotalWorkingYears + YearsInCurrentRole,
+match_obj <- matchit(training_participant ~ Age + Gender + Education + 
+                       Department + JobLevel + JobInvolvement + 
+                       TotalWorkingYears + YearsInCurrentRole,
                      data = df2, 
                      method = "cem")
 ## still losing most of the participant observations
@@ -163,8 +179,9 @@ The matchit package allows you to specify for each continuous variable how many 
 
 ```{r}
 ## try tuning the binning
-match_obj <- matchit(training_participant ~ Age + Gender + Education + Department + JobLevel + 
-                       JobInvolvement + TotalWorkingYears + YearsInCurrentRole,
+match_obj <- matchit(training_participant ~ Age + Gender + Education + 
+                       Department + JobLevel + JobInvolvement + 
+                       TotalWorkingYears + YearsInCurrentRole,
                      data = df2, 
                      method = "cem",
                      cutpoints = c(Age = 5,
@@ -216,6 +233,8 @@ smd_plot = function(sum_match_obj) {
 smd_plot(summary(match_obj))
 ```
 
+{{< pagebreak >}}
+
 ### Propensity Score Matching
 
 Another type of matching that is more practical when you have many variables and many continuous variables is propensity score matching. This involves estimating a logistic regression (or similar model) to predict the likelihood of being a participant (propensity of being treated), given a set of predictor variables. Once non-participants have been scored with a likelihood of being a participant, given their characteristics, they are then matched with a participant with a similar likelihood score.
@@ -224,8 +243,9 @@ A basic propensity score model finds a match for every participant.
 
 ```{r}
 ## try propensity score matching
-match_obj <- matchit(training_participant ~ Age + Gender + Education + Department +
-                       JobLevel + JobInvolvement + TotalWorkingYears + YearsInCurrentRole,
+match_obj <- matchit(training_participant ~ Age + Gender + Education + 
+                       Department + JobLevel + JobInvolvement + 
+                       TotalWorkingYears + YearsInCurrentRole,
                      data = df2, 
                      method = 'nearest'
                      )
@@ -240,6 +260,8 @@ The propensity score model does a decent job of providing quality matches, but i
 smd_plot(summary(match_obj))
 ```
 
+{{< pagebreak >}}
+
 ### Exact + Propensity Score
 
 It's possible to combine exact matching with propensity score matching and this can give us some of the benefits of both. The way it works is it matches exactly on a subset of variables you specify (categorical variables with few levels) then it uses the propensity score to match when exact matching doesn't yield any matches or to narrow down many matches to the best match when exact matching results in many matches for a given participant.
@@ -248,8 +270,9 @@ Here we match exactly on gender, education level, job level, and department, the
 
 ```{r}
 # try parial exact with propensity score
-match_obj <- matchit(training_participant ~ Age + Gender + Education + Department +
-                       JobLevel + JobInvolvement + TotalWorkingYears + YearsInCurrentRole,
+match_obj <- matchit(training_participant ~ Age + Gender + Education + 
+                       Department + JobLevel + JobInvolvement + 
+                       TotalWorkingYears + YearsInCurrentRole,
                      data = df2, 
                      exact = ~ Gender + Education + JobLevel+ Department,
                      method = 'nearest'
@@ -261,9 +284,11 @@ smd_plot(summary(match_obj))
 Ultimately, you can iterate to your heart's content. There are other even more complex methods that I won't get into here that might be able to squeeze more juice from the apple. Here is the best I got from a small amount of playing around (probit instead of logit link function, optimal instead of nearest as the method for matching propensity scores), ultimately just another version of exact plus propensity score matching that slightly improve on my coarsened exact matching.
 
 ```{r}
-## try one more with optimal matching instead of greedy (nearest), probit instead of logit
-match_obj <- matchit(training_participant ~ Age + Gender + Education + Department + 
-                       JobLevel + JobInvolvement + TotalWorkingYears + YearsInCurrentRole,
+## try one more with optimal matching instead of greedy (nearest)
+# probit instead of logit
+match_obj <- matchit(training_participant ~ Age + Gender + Education + 
+                       Department + JobLevel + JobInvolvement + 
+                       TotalWorkingYears + YearsInCurrentRole,
                      data = df2, 
                      exact = ~ Gender + Education + JobLevel + Department,
                      method = 'optimal',
@@ -279,7 +304,7 @@ Here are a few more plots to understand our matching model. The first shows the 
 # propensity overlaps look great
 plot(match_obj, type = "jitter", interactive = FALSE)
 
-# look at density plots along matching criteria of participants vs non after matching
+# look at density plots along matching vars of participants vs non after match
 plot(match_obj, type = "density", interactive = FALSE,
      which.xs = ~ Age + Gender + Department)
 plot(match_obj, type = "density", interactive = FALSE,
@@ -287,6 +312,8 @@ plot(match_obj, type = "density", interactive = FALSE,
 plot(match_obj, type = "density", interactive = FALSE,
      which.xs = ~ JobInvolvement + TotalWorkingYears + YearsInCurrentRole)
 ```
+
+## {{< pagebreak >}}
 
 ## Estimating Effects
 
@@ -298,16 +325,24 @@ We use a linear regression to add any remaining robustness needed in controlling
 # get matches
 df_match = match.data(match_obj)
 
-# fit a linear model explaining performance with participation and covariates for robustness
-fit = lm(PerformanceRating ~ training_participant + Age + Gender +  Education + 
-               JobLevel + JobInvolvement + TotalWorkingYears + YearsInCurrentRole,
+# fit a linear model explaining performance with participation and 
+# covariates for robustness
+fit = lm(PerformanceRating ~ training_participant + Age + Gender +  
+           Education +  JobLevel + JobInvolvement + TotalWorkingYears + 
+           YearsInCurrentRole,
           data = df_match)
 
 # get marginal effect of participation on performance rating
-avg_comparisons(fit, variables = "training_participant",
+marg_effect = avg_comparisons(fit, variables = "training_participant",
                 vcov = ~subclass,
                 newdata = subset(df_match, training_participant == 1))
+
+# look at estimate of marginal effect and its pvalue
+marg_effect$estimate
+marg_effect$p.value
 ```
+
+{{< pagebreak >}}
 
 ## Takeaways and Limitations
 
