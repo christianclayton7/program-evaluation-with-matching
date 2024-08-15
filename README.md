@@ -49,7 +49,8 @@ Matching Types
 
 - Exact + PSM: A model using exact binning to create strata and PSM to assign matches within strata retains all participant observations and slighly outperforms our CEM model. By altering the PSM matching method and the link function for the propensity model we improve the match qualitiy slightly again.
   
-![unnamed-chunk-19-1](https://github.com/user-attachments/assets/72a601c3-782c-4430-8d6e-579046e0e898)
+file:///Users/christianclayton/Documents/Portfolio%20Projects/Program%20Eval/program-eval-matching_files/figure-html/unnamed-chunk-18-1.png
+
 
 Estimate Marginal Effects
 
