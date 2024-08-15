@@ -12,12 +12,12 @@ Walk through of a hypothetical program evaluation, where we evaluate training pr
 - Esimated marginal effect of particpation on performance
 - Brief explanation on limitations of matching
 
-Sources
-[kaggle ibm attrition dataset](https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset)
-[getting started with matchit](https://cran.r-project.org/web/packages/MatchIt/vignettes/MatchIt.html)
+Sources  
+[kaggle ibm attrition dataset](https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset)  
+[getting started with matchit](https://cran.r-project.org/web/packages/MatchIt/vignettes/MatchIt.html)  
 [matching methods](https://cran.r-project.org/web/packages/MatchIt/vignettes/matching-methods.html#coarsened-exact-matching-method-cem)
 
-Data Simulation
+Data Simulation  
 IBM attrition dataset has a feature called 'TrainingTimesLastYear'. To keep any inherent relatinoships in the data I used this feature to create a training participation flag. If you attented a training more than 4 times last year ( use that as a signal that this person is likely to opt into a training program if they were invited. To similuate the invitation, I decided this particular training was of most benefit to early career R&D employees and restricted the flag to turn on only for these groups (Job level 1-3, dept = R&D).
 
 Exploratory Group Differences
