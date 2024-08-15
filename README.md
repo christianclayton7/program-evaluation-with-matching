@@ -41,17 +41,20 @@ Participants were also more likely to be female than non-particpants, perhaps re
 Matching Types
 
 - Exact Matching: with our set of variables only 5 parcipant observations got matches.
+  
 - Coarsened Exact Matching (CEM): a defautl model improved to 34 of 185 participants getting matches. With some extra specification in binning of the continuous variables we improve to 177 of 185 participants getting matches and those matches do a very good job at minimizing the standardized mean difference across variables.
+  
   ![unnamed-chunk-14-1](https://github.com/user-attachments/assets/e3f49a1c-dcbc-4e61-9869-17be8c995cea)
 
 - Propensity Score Matching (PSM): A default model gets matches for every participant, but the quality of matches is slightly worst than our CEM model with cutom binning.
+  
 ![unnamed-chunk-16-1](https://github.com/user-attachments/assets/4404d5d3-96a3-4415-9573-daa88a9b7f7e)
 
 - Exact + PSM: A model using exact binning to create strata and PSM to assign matches within strata retains all participant observations and slighly outperforms our CEM model. By altering the PSM matching method and the link function for the propensity model we improve the match qualitiy slightly again.
   
 ![unnamed-chunk-18-1](https://github.com/user-attachments/assets/2700c941-dd74-42f7-9c47-0d9a928b526d)
 
-Our final matching specification does well at minimizing the distance between participant and non-participant lines/distributions along our variables.
+Our final matching specification does well at minimizing the distance between participant and non-participant lines/distributions along our variables, not surprisingly, especially along the variables we specified to match exactly (gender, education, job level, department).
 
 ![unnamed-chunk-19-2](https://github.com/user-attachments/assets/bd2aa612-cc94-4b03-90e6-2605363ccd4f)
 ![unnamed-chunk-19-3](https://github.com/user-attachments/assets/d5f76f82-6231-4261-aa85-a875a4f8d05b)
@@ -59,6 +62,10 @@ Our final matching specification does well at minimizing the distance between pa
 
 Estimate Marginal Effects
 
-With
+I use a linear regression to add any remaining robustness needed in controlling for differences in covariates, ultimately looking for the marginal effect of participation in training on mean performance rating, which I estimate to be a decrease in performance rating of .0402, which, at a pvalue of .253, means we don’t have much confidence that the true effect of training participation on performance rating is not actually zero. 
+
+Said differently, this test cannot reject our default assumption that participating in the training doesn’t effect performance ratings.
 
 Limitations
+
+The possibility of an unobserved confounding variable still remains a threat to causal claims even after matching well on all the things we can measure, so causal claims obtained by matching should be made more cautiously than ones made with random assignment. That being said, where random assignment is not possible, practical, ethical, or legal, matching is a great alternative for providing a level of confidence about causation in the evaluation of the effectiveness of your programs.
