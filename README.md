@@ -34,7 +34,7 @@ R&D employeees indexed higher on education than other employees and our lower jo
 
 ![unnamed-chunk-6-1](https://github.com/user-attachments/assets/7715a865-d15a-4543-9807-f83403147c9c)
 
-Participants were also more likely to be female than non-particpants, perhaps related to R%D roles relative to other departments, but also possiblly having to do with likelihood of opting in for more training.
+Participants were also more likely to be female than non-particpants, perhaps related to R&D roles relative to other departments, but also potentially could be a difference in the likelihood of opting in for more training.
 
 ![unnamed-chunk-7-1](https://github.com/user-attachments/assets/3d920760-fdfb-442a-9f4c-0a13bf7ff549)
 
