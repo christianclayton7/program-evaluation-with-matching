@@ -51,7 +51,11 @@ Matching Types
   
 ![unnamed-chunk-18-1](https://github.com/user-attachments/assets/2700c941-dd74-42f7-9c47-0d9a928b526d)
 
+Our final matching specification does well at minimizing the distance between participant and non-participant lines/distributions along our variables.
 
+![unnamed-chunk-19-2](https://github.com/user-attachments/assets/bd2aa612-cc94-4b03-90e6-2605363ccd4f)
+![unnamed-chunk-19-3](https://github.com/user-attachments/assets/d5f76f82-6231-4261-aa85-a875a4f8d05b)
+![unnamed-chunk-19-4](https://github.com/user-attachments/assets/6c1545b8-dde1-4999-8211-ef7571103d11)
 
 Estimate Marginal Effects
 
