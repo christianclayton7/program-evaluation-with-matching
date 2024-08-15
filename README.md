@@ -22,7 +22,7 @@
 
 IBM attrition dataset has a feature called 'TrainingTimesLastYear'. To keep any inherent relatinoships in the data I used this feature to create a training participation flag. If you attented a training more than 4 times last year ( use that as a signal that this person is likely to opt into a training program if they were invited. To similuate the invitation, I decided this particular training was of most benefit to early career R&D employees and restricted the flag to turn on only for these groups (Job level 1-3, dept = R&D).
 
-### Exploratory Group Differences
+### Exploring Group Differences
 
 Participants had slightly lower performance ratings on average relative to non-participants (3.12 vs 3.16), but being lower levels and R&D it is possible these groups had lower ratings to begin with and performance actually increased due to participation. We will attempt to tease out the true relationships using matching.
 
