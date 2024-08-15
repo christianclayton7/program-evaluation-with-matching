@@ -2,7 +2,7 @@
 
 ## Project Overview: Program evaluation without random assignment (with matching)
 
-Walk through of a hypothetical program evaluation, where we evaluate training program's effect on performance, where participation was not randomized and matching is used to control for differences between participants and non-participants.
+**Walk through of a hypothetical program evaluation, where we evaluate training program's effect on performance, where participation was not randomized and matching is used to control for differences between participants and non-participants.**
 
 - Utilized a kaggle sample dataset for attrition analysis from ibm to mirror real employee data relationships
 - Simulated participation in the program
@@ -12,17 +12,17 @@ Walk through of a hypothetical program evaluation, where we evaluate training pr
 - Esimated marginal effect of particpation on performance
 - Brief explanation on limitations of matching
 
-Sources  
+### Sources  
 
 [kaggle ibm attrition dataset](https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset)  
 [getting started with matchit](https://cran.r-project.org/web/packages/MatchIt/vignettes/MatchIt.html)  
 [matching methods](https://cran.r-project.org/web/packages/MatchIt/vignettes/matching-methods.html#coarsened-exact-matching-method-cem)
 
-Data Simulation  
+### Data Simulation  
 
 IBM attrition dataset has a feature called 'TrainingTimesLastYear'. To keep any inherent relatinoships in the data I used this feature to create a training participation flag. If you attented a training more than 4 times last year ( use that as a signal that this person is likely to opt into a training program if they were invited. To similuate the invitation, I decided this particular training was of most benefit to early career R&D employees and restricted the flag to turn on only for these groups (Job level 1-3, dept = R&D).
 
-Exploratory Group Differences
+### Exploratory Group Differences
 
 Participants had slightly lower performance ratings on average relative to non-participants (3.12 vs 3.16), but being lower levels and R&D it is possible these groups had lower ratings to begin with and performance actually increased due to participation. We will attempt to tease out the true relationships using matching.
 
@@ -38,7 +38,7 @@ Participants were also more likely to be female than non-particpants, perhaps re
 
 ![unnamed-chunk-7-1](https://github.com/user-attachments/assets/3d920760-fdfb-442a-9f4c-0a13bf7ff549)
 
-Matching Types
+### Matching Types
 
 - Exact Matching: with our set of variables only 5 parcipant observations got matches.
   
@@ -60,12 +60,12 @@ Our final matching specification does well at minimizing the distance between pa
 ![unnamed-chunk-19-3](https://github.com/user-attachments/assets/d5f76f82-6231-4261-aa85-a875a4f8d05b)
 ![unnamed-chunk-19-4](https://github.com/user-attachments/assets/6c1545b8-dde1-4999-8211-ef7571103d11)
 
-Estimate Marginal Effects
+### Estimate Marginal Effects
 
 I use a linear regression to add any remaining robustness needed in controlling for differences in covariates, ultimately looking for the marginal effect of participation in training on mean performance rating, which I estimate to be a decrease in performance rating of .0402, which, at a pvalue of .253, means we don’t have much confidence that the true effect of training participation on performance rating is not actually zero. 
 
-Said differently, this test cannot reject our default assumption that participating in the training doesn’t effect performance ratings.
+Said differently, **this test cannot reject our default assumption that participating in the training doesn’t effect performance ratings.**
 
-Limitations
+### Limitations
 
-The possibility of an unobserved confounding variable still remains a threat to causal claims even after matching well on all the things we can measure, so causal claims obtained by matching should be made more cautiously than ones made with random assignment. That being said, where random assignment is not possible, practical, ethical, or legal, matching is a great alternative for providing a level of confidence about causation in the evaluation of the effectiveness of your programs.
+The possibility of an unobserved confounding variable still remains a threat to causal claims even after matching well on all the things we can measure, so causal claims obtained by matching should be made more cautiously than ones made with random assignment. That being said, **where random assignment is not possible, practical, ethical, or legal, matching is a great alternative** for providing a level of confidence about causation in the evaluation of the effectiveness of your programs.
