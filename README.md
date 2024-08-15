@@ -7,7 +7,7 @@ Walk through of a hypothetical program evaluation, where we evaluate training pr
 - Utilized a kaggle sample dataset for attrition analysis from ibm to mirror real employee data relationships
 - Simulated participation in the program
 - Explored differences between participant group and non-participant population
-- Attempted and evaluated different types of matching specifications
+- Attempted and evaluated different types of matching methods and specifications
 - Obtained matches using our best matching specs
 - Esimated marginal effect of particpation on performance
 - Brief explanation on limitations of matching
